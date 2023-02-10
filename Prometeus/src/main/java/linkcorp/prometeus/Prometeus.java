@@ -14,7 +14,7 @@ import linkcorp.prometeus.pantallas.VentanaPrincipal;
  * @author links
  */
 public class Prometeus {
-
+//la vida sabe a C
     public static void main(String[] args) {
         
         VentanaPrincipal ven1 = new VentanaPrincipal();
