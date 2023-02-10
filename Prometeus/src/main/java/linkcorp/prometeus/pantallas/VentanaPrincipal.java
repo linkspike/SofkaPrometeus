@@ -8,6 +8,7 @@ import database.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import linkcorp.prometeus.clasesGenerales.Naves;
 
 
 /**
@@ -16,16 +17,46 @@ import java.sql.Statement;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
         
+        //Este arreglo se encarga de llenar el combobox de la interfaz
+        String [] ATipoNaves = {"Vehiculos de Lanzadera","Naves espaciales no tripuladas","Naves espaciales tripuladas"};
+        
         Conexion cn = new Conexion();
         Statement st;
         ResultSet rs;
+        
+        //Este metodo se utiliza para iniciar los valores en el combobox
+        void setearCombobox(){
+        
+            for (int i = 0; i < ATipoNaves.length; i++) {
+                
+                CBTipo.addItem(ATipoNaves[i]);
+            }
+        };
+        
+        //Este metodo se utiliza para reiniciar los campos de texto de la interfaz grafica.
+        void limpiarInterfaz(){
+            
+            JTNombre.setText("");
+            JTAnio.setText("");
+            JTPais.setText("");
+            JTCaracter.setText("");
+        
+        };
     /**
      * Creates new form ventanaPrincipal
      */
     public VentanaPrincipal() {
         initComponents();
         
-       String [] ATipoNaves = {"a","b","c"};
+        //Inicializamos los componentes de la interfaz grafica
+        JTNombre.setText("");
+        JTAnio.setText("");
+        JTPais.setText("");
+        JTCaracter.setText("");
+        
+        
+        setearCombobox();
+        
        
        
         
@@ -51,7 +82,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JTPais = new javax.swing.JTextField();
         CBTipo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        JTCaracter = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,11 +110,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         JTPais.setText("jTextField2");
 
-        CBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        JTCaracter.setColumns(20);
+        JTCaracter.setRows(5);
+        jScrollPane1.setViewportView(JTCaracter);
 
         jButton2.setText("Consultas");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -108,13 +139,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addComponent(jLabel3)))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(JTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(JTAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(JTPais, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(CBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JTAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(JTPais, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(CBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -161,7 +193,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        
+        Naves nav1 = new Naves(CBTipo.getSelectedItem().toString(), JTNombre.getText(), Integer.parseInt(JTAnio.getText()), JTPais.getText(), JTCaracter.getText());
         
         /* METODO PARA SELECCIONAR
         try {
@@ -181,10 +213,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }    */
     
         
-        //METODO PARA INGRESAR
+        //METODO PARA INGRESAR los datos del objeto a la BD
         try {
-            PreparedStatement pss = cn.con.prepareStatement("INSERT INTO navestipo(tipo) VALUE (?)"); 
-            pss.setString(1, JTNombre.getText());
+            
+            
+            
+            PreparedStatement pss = cn.con.prepareStatement("INSERT INTO naves (Nombre, Anio, Pais, Tipo, Caracteristicas) VALUES (?,?,?,?,?);");
+            
+            pss.setString(1, nav1.getNombre());
+            pss.setInt(2, nav1.getAnio());
+            pss.setString(3, nav1.getPais());
+            pss.setString(4, nav1.getTipoNave());
+            pss.setString(5, nav1.getCaracteristicas());
+            
             pss.executeUpdate();
             
         } catch (Exception e) {
@@ -192,8 +233,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             System.out.println(""+e);
         }
 
-
-        // TODO add your handling code here:
+            limpiarInterfaz();
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -247,6 +288,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CBTipo;
     private javax.swing.JTextField JTAnio;
+    private javax.swing.JTextArea JTCaracter;
     private javax.swing.JTextField JTNombre;
     private javax.swing.JTextField JTPais;
     private javax.swing.JButton jButton1;
@@ -257,6 +299,5 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
