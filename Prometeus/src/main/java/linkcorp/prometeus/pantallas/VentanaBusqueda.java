@@ -72,6 +72,7 @@ public class VentanaBusqueda extends javax.swing.JFrame {
         jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(java.awt.Color.darkGray);
 
         JTResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,8 +88,6 @@ public class VentanaBusqueda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(JTResultado);
 
         jLabel1.setText("Año A");
-
-        JTAnioA.setText("jTextField1");
 
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +107,11 @@ public class VentanaBusqueda extends javax.swing.JFrame {
 
         jLabel3.setText("Busqueda de naves entre los años A y B");
 
-        JTAnioB.setText("jTextField2");
+        JTAnioB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTAnioBActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Listar Todo");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -143,12 +146,12 @@ public class VentanaBusqueda extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(JTAnioA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(jLabel2)
-                                .addGap(31, 31, 31)
-                                .addComponent(JTAnioB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(JTAnioA, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addGap(26, 26, 26)
+                                .addComponent(JTAnioB, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
                                 .addComponent(jButton2)))))
                 .addGap(16, 16, 16))
         );
@@ -253,6 +256,10 @@ public class VentanaBusqueda extends javax.swing.JFrame {
                     
         }            // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void JTAnioBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTAnioBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JTAnioBActionPerformed
 
     /**
      * @param args the command line arguments
