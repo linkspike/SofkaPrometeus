@@ -194,23 +194,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         Naves nav1 = new Naves(CBTipo.getSelectedItem().toString(), JTNombre.getText(), Integer.parseInt(JTAnio.getText()), JTPais.getText(), JTCaracter.getText());
-        
-        /* METODO PARA SELECCIONAR
-        try {
-            
-            st = cn.con.createStatement();
-            rs = st.executeQuery("select * from navestipo");
-            while (rs.next()) {                
-                
-                System.out.println(""+rs.getInt(ICONIFIED)+rs.);
-                
-            }
-            //cn.con.close();
-            
-        } catch (Exception e) {
-            System.out.println(""+e);
-                    
-        }    */
+           
     
         
         //METODO PARA INGRESAR los datos del objeto a la BD
